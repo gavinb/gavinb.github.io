@@ -10,7 +10,7 @@ I discovered a strange bug in my Python code recently.  It took me a few minutes
 <!--more-->
 Consider the following code:
 
-``` python
+{% highlight python %}
 import sys
 
 class Group:
@@ -44,7 +44,7 @@ deftest():
 
 if __name__ == '__main__':
     test()
-```
+{% endhighlight %}
 
 If run with no parameters, it appears to have the expected and desired behaviour.  Give it a parameter, and the line that appends a question will cause *all* instances to have the same question added.  Obviously a bug, but why?
 

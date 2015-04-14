@@ -10,13 +10,11 @@ When writing a small Python web application using the lightweight [CherryPy](htt
 
 To use this within Cherrypy, set the port to 80 in the cherrypy config file, then add the following before your server start:
 
-``` python
+{% highlight python %}
 cpg.server.onStartServerList = [drop_privileges]
-```
 
 ## drop_privileges.py
 
-``` python
 import logging
 
 log = logging.getLogger('server')
@@ -76,7 +74,7 @@ def drop_privileges(uid_name='nobody', gid_name='nogroup'):
 # Test it
 if __name__ == '__main__':
     drop_privileges()
-```
+{% endhighlight %}
 
 ## Archived Comments
 

@@ -10,7 +10,7 @@ For some reason, all the examples of the configuration files for the Python logg
 
 The Python logging framework is extremely useful and powerful, but the documentation is somewhat lacking.  It is dead easy to use in its simplest form:
 
-``` python
+{% highlight python %}
 import os
 import math
 import logging
@@ -22,20 +22,20 @@ def frobnicate(foo, baz):
     return math.sqrt(baz * math.pi)
 
 logging.basicConfig()
-```
+{% endhighlight %}
 
 So you really do nothing more than import the module, then make logging calls with the appropriate severity level.  But if you have a project with lots of different modules, and you want more control over how things are handled, what do you do?
 
 The first thing is to get a logger instance for each module.  You can use the same name as the module hierarchy, which gives you a lot of flexibility.  Thus, at the top of each module, we have something like:
 
-``` python
+{% highlight python %}
 import logging
 log = logging.getLogger('pi.basil.gui.widgets')
-```
+{% endhighlight %}
 
 The `logging.getLogger()` call will return us a logger for just that module, which we can then use throughout.  Thus:
 
-``` python
+{% highlight python %}
 class CalibrationCanvas:
  
     #... some stuff
@@ -50,7 +50,7 @@ class CalibrationCanvas:
     def _update(self, model):
         if not model:
             log.warning('update: No model specified')
-```
+{% endhighlight %}
 
 So note the use of the logging instance `log` instead of `logging`.  By using a different `Logger` for each module, we have very fine-grained control.
 
@@ -58,7 +58,7 @@ It is important to use the right severity levels when you write you log calls.  
 
 So now we need to set up the logging configuration.  Don't bother trying to do this programmatically (although you could) - use a configuration file.  This is the part that isn't documented so well.  Here is a snippet from a real file:
 
-```
+{% highlight ini %}
 [formatters]
 keys: detailed,simple
  
@@ -97,21 +97,21 @@ handlers: console
 level: INFO
 qualname: pi.basil
 handlers: console
-```
+{% endhighlight %}
 
 A few notes: First, you must list all of the loggers, formatters and handlers in a section up front.  This is a bit odd, since each has their own section with a unique name anyway, but it appears to be due to a limitation of the `ConfigParser`.  So if you have formatters called `root` and `engine`, you must declare them in a section:
 
-```
+{% highlight ini %}
 [formatters]
 keys: simple,detailed
-```
+{% endhighlight %}
 
 Then the details of each formatter are supplied like this:
 
-```
+{% highlight ini %}
 [formatter_simple]
 format: %(name)s:%(levelname)s:  %(message)s
-```
+{% endhighlight %}
 
 And so on, for each instance of each type.
 
@@ -123,14 +123,14 @@ The trick is the `qualname` setting - this allows us to specify different logger
 
 The configuration file is loaded at app startup time like this:
 
-```
+{% highlight python %}
     def main():
 
         # ...
 
         import logging.config
         logging.config.fileConfig('logging_basil.conf')
-```
+{% endhighlight %}
 
 Once you get the hang of it, the logging framework can save you a lot of time and effort, and you will be able to stop the bad habit of adding `print` statements all over the place, only to forget them or have to come back later and remove them.  The logging calls become a part of the code, you leave them in for production code, and can turn up the level of detail for diagnosing problems.  Fortunately, the performance penalty for leaving the logging code in is *very* small, and it is definitely worth a few extra cycles for that peace of mind.
 

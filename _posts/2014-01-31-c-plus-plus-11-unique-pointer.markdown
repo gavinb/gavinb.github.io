@@ -21,23 +21,23 @@ pointer types in C++11.
 
 Whereas before, you might write:
 
-```c++
+{% highlight c++ %}
     Foo* obj = new Foo;
 
     obj->process();
 
     delete obj;
-```
+{% endhighlight %}
 
 you can now write:
 
-```c++
+{% highlight c++ %}
     std::unique_ptr<Foo> obj(new Foo);
 
     obj->process();
 
     // obj will be automatically deleted
-```
+{% endhighlight %}
 
 ## Properties
 
@@ -70,7 +70,7 @@ use the arrow `->` operator as you normally would (since it is overloaded to ret
 Once the variable goes out of scope, `delete` will be called to release the memory,
 and the destructor will be invoked as usual, as this simple example shows:
 
-```c++
+{% highlight c++ %}
 #include <memory>
 #include <iostream>
 
@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 
     return 0;
 }
-```
+{% endhighlight %}
 
 The output is:
 
@@ -108,12 +108,12 @@ The output is:
 If you wish to delete the object before the holding pointer goes out of scope,
 you can use the `reset()` method on the smart pointer:
 
-```c++
+{% highlight c++ %}
     std::unique_ptr<Foo> obj(new Foo);
 
     obj->process();
     obj.reset();
-```
+{% endhighlight %}
 
 (Notice that methods invoked on the smart pointer itself use `.` whereas
 methods on the target object use the overloaded dereference operator `->`).
@@ -136,13 +136,13 @@ scope.  This is a subtle but important point.
 
 What happens if we try to assign this pointer to another smart pointer?
 
-```c++
+{% highlight c++ %}
     std::unique_ptr<Foo> obj(new Foo);
 
     std::unique_ptr<Foo> obj2;
 
     obj2 = obj;
-```
+{% endhighlight %}
 
 We get a meaningful compiler error:
 
@@ -159,12 +159,12 @@ the new explicit *move* support in C++11 (which is itself a large and complex
 topic). This transfers ownership of the pointer from one `unique_ptr` instance
 to another:
 
-```c++
+{% highlight c++ %}
     std::unique_ptr<Foo> obj1(new Foo);
     std::unique_ptr<Foo> obj2;
 
     obj2 = std::move(obj1);
-```
+{% endhighlight %}
 
 The output of the test program shows the result (we can access the enclosed pointer
 using the `get()` method):
@@ -190,7 +190,7 @@ The `std::unique_ptr` class also has explicit support for handling arrays of
 pointers. It is not a replacement for `std::vector`, but depending on your
 requirements, this array support can be very useful.
 
-```c++
+{% highlight c++ %}
 const unsigned N = 10;
 
 std::unique_ptr<Foo[]> objarray(new Foo [N]);
@@ -200,7 +200,7 @@ for (unsigned i = 0; i < N; i++)
     std::cout << i << " ";
     objarray[i].process();
 }
-```
+{% endhighlight %}
 
 ## Returning objects from functions
 
@@ -209,7 +209,7 @@ resource from a function or method, but don't want to worry about having to free
 the object later.  This sample function returns a unique pointer to the caller,
 transferring ownership by implicitly moving the result:
 
-```c++
+{% highlight c++ %}
 std::unique_ptr<Foo> make_foo()
 {
     std::unique_ptr<Foo> obj(new Foo);
@@ -218,7 +218,7 @@ std::unique_ptr<Foo> make_foo()
 
     return obj;
 }
-```
+{% endhighlight %}
 
 The object will be freed when the caller stops referencing it.
 
@@ -230,24 +230,24 @@ have a vector of pointers to objects, you need to carefully manage ownership
 (eg. does the creator or the container own the allocations?) and manually free
 them. But with `unique_ptr`, instead of:
 
-```c++
+{% highlight c++ %}
 std::vector<Foo*> v;
-```
+{% endhighlight %}
 
 we can write:
 
-```c++
+{% highlight c++ %}
 std::vector< std::unique_ptr<Foo> > v;
-```
+{% endhighlight %}
 
 then when creating the object, we use the explicit *move* support to pass
 ownership of the object to the container (and avoid any reallocations or
 temporaries):
 
-```c++
+{% highlight c++ %}
 std::unique_ptr<Foo> q(new Foo(i));
 v.push_back(std::move(q));
-```
+{% endhighlight %}
 
 When the `vector` goes out of scope, its destructor will in turn release all
 the `unique_ptr` instances it owns.  This automatic releasing of resources

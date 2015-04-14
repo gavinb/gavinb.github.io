@@ -42,17 +42,17 @@ A *race condition* is a general term for a class of problems, whereby the result
 
 Even a simple increment operation, which is only a single operation in C++, may actually be the source of a race condition.  Consider the seemingly innocent:
 
-``` c++
+{% highlight c++ %}
     m_SequenceNumber++;
-```
+{% endhighlight %}
 
 which actually translates (on the x86 architecture) to something like:
 
-``` gas
+{% highlight gas %}
     movl    -12(%ebp), %eax
     incl    %eax
     movl    %eax, -12(%ebp)
-```
+{% endhighlight %}
 
 which is a load, increment, then store.  So there are actually *two* potential points that a race condition could occur - between the load and the increment, and between the increment and the save.
 
@@ -83,7 +83,7 @@ Fortunately, there is a nice, simple solution to this particular problem.  Opera
 
 An illustration of a race condition is where multiple threads are removing work items from a queue.  Imagine some code that looks something like this:
 
-``` c++
+{% highlight c++ %}
     void unsafeWorkerThread()
     {
         while ( unsafeWorkerThreadRunning )
@@ -96,7 +96,7 @@ An illustration of a race condition is where multiple threads are removing work 
             }
         }
     }
-```
+{% endhighlight %}
 
 This is not thread-safe!  Even if we assume that the queue operations themselves are atomic (which is usually *not* the case for most container classes!), there is a race condition waiting to trigger a failure.  Can you spot it?
 
@@ -104,7 +104,7 @@ Imagine there are two threads running, and there is one work item in the queue. 
 
 The simplest solution is to protect the queue with a mutex, and lock it around the inner block.  (There's another improvement we can make after we discuss exceptions.)
 
-``` c++
+{% highlight c++ %}
     void workerThread()
     {
         while ( workerThreadRunning )
@@ -120,7 +120,7 @@ The simplest solution is to protect the queue with a mutex, and lock it around t
             queueMutex.unlock();
         }
     }
-```
+{% endhighlight %}
 
 (There are more esoteric solutions to this problem, such as lock-free data structures, but those are beyond the scope of this series.)
 
@@ -128,7 +128,7 @@ The simplest solution is to protect the queue with a mutex, and lock it around t
 
 In a non-trivial application, there may be several threads and numerous mutexes.  When more than one thread locks more than one mutex, there arises the potential for a condition known as a *deadlock*.  This is where one thread is holding a lock while waiting for another to become available, while a second thread is holding the second lock and waiting for the first lock to become available.  Since they are both waiting for each other to finish, neither can run.  This deadlocked situation can be more involved, whereby several threads form a ring of holding and waiting for locks.  This is illustrated as follows, first in code then as a diagram:
 
-``` c++
+{% highlight c++ %}
     void threadA()
     {
         while (running)
@@ -151,7 +151,7 @@ In a non-trivial application, there may be several threads and numerous mutexes.
             mutexOne.unlock();
         }
     }
-```
+{% endhighlight %}
 
 ![](/img/DeadlockAnimation.gif)
 
@@ -165,7 +165,7 @@ As with non-threaded code, you should always catch the most specific exception t
 
 A skeleton thread function might look something like:
 
-``` c++
+{% highlight c++ %}
     void processThread()
     {
         while(keepProcessing)
@@ -182,7 +182,7 @@ A skeleton thread function might look something like:
             }
         }
     }
-```
+{% endhighlight %}
 
 Just as an errant exception can cause havoc with threads running, they can also cause problems with mutexes.  The next article shows how to use a *lock guard* to ensure mutexes are unlocked, even if an exception is thrown.
 

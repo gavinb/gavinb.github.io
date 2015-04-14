@@ -13,14 +13,14 @@ with `free()`.
 
 <!--more-->
 
-```
+{% highlight c %}
 char* buffer = malloc(BUFFER_SIZE);
 
 fill_buffer(buffer, BUFFER_SIZE);
 process_buffer(buffer, BUFFER_SIZE);
 
 free(buffer);
-```
+{% endhighlight %}
 
 Some of the problems with this approach were:
 
@@ -37,14 +37,14 @@ The above code is also perfectly valid C++, albeit not exactly idiomatic.
 Rather than rely on the C runtime, C++ introduced heap management into the
 language itself, with the `new` and `delete` operators:
 
-```c++
+{% highlight c++ %}
 Buffer* buffer = new Buffer(BUFFER_SIZE);
 
 buffer->fill(0xaa);
 buffer->process();
 
 delete buffer;
-```
+{% endhighlight %}
 
 This too is not without its issues:
 

@@ -14,13 +14,13 @@ Now most of the idiomatic C++ code I've read that uses STL iterators uses the pr
 
 The use of the post-increment operator is well established idiomatic code for looping (in both C and C++):
 
-```c++
+{% highlight c++ %}
   for ( unsigned i = 0; i < array_length; i++ )
   {
     // do something with array[i]
     // ...
   }
-```
+{% endhighlight %}
 
 When the indexing variable is an ordinal type (usually an integer), the incrementing order makes no difference.  The expressions `++i` and `i++` are identical in this case.  And so many people developing in C++ simply use the same style in C++ with their iterator code.  Why would it matter?
 
@@ -28,15 +28,15 @@ Well, it turns out that it does.  If the indexing variable is a class, such as a
 
 Referring back to Scott Meyer's wonderful [More Effective C++](http://www.amazon.com/More-Effective-C%2B%2B-Addison-Wesley-Professional/dp/020163371X/ref=pd_bbs_sr_1/002-4241626-5806441?ie=UTF8&s=books&qid=1190249817&sr=8-1) book, I tracked down the explanation (item 6, page 31), which I will attempt to reproduce here in simplified form.  The signature of the pre-increment `operator++` for a class T is:
 
-``` c++
+{% highlight c++ %}
   T& operator++(); // prefix
-```
+{% endhighlight %}
 
 while the post-increment operator had a dummy parameter added to make the signature unique:
 
-``` c++
+{% highlight c++ %}
   const T operator++( int ); // postfix
-```
+{% endhighlight %}
 
 But that isn't the only difference - notice that the prefix operator returns a _reference_ to the object itself (permitting chaining of method calls), while the postfix operator returns a _const object_, semantically defined as the previous value.  (This is for consistency with the behaviour of ordinal types.)
 
@@ -50,13 +50,13 @@ The results were very interesting: on an Intel workstation, the pre-increment co
 
 So - it really can improve the performance of your code to write:
 
-``` c++
+{% highlight c++ %}
   mylist::const_iterator it;
   for ( it = numbers.begin(); it != numbers.end(); ++it )
   {
     // do something with *it
   }
-```
+{% endhighlight %}
 
 For small arrays, it may not make much of a noticeable difference, but every cycle counts, and a little consistency goes a long way.  Using the prefix increment will enable your application to scale better.
 
@@ -66,13 +66,13 @@ I have provided the test source in C++, along with an R script to summarise and 
 
 As one final note, the wonderful [Boost++ library](http://www.boost.org/) provides the `foreach` module, which provides a powerful wrapper to iterate over containers with a nice clean simple syntax:
 
-``` c++
+{% highlight c++ %}
 int total = 0;
 foreach( int num, numbers )
 {
     total += num;
 }
-```
+{% endhighlight %}
 
 And yes, it uses the pre-increment operator for maximum performance.
 

@@ -27,7 +27,7 @@ Together, these two rules ensures that objects are `const` as often as possible.
 
 How do you declare a method to be `const`?  Just add the `const` keyword after the normal method declaration, thus:
 
-``` c++
+{% highlight c++ %}
 class A
 {
 public:
@@ -35,22 +35,22 @@ public:
     unsigned calculateSum() const;
     // ...
 };
-```
+{% endhighlight %}
 
 You declare a function or method parameter `const` in the usual way.  Note that in C++, references are usually preferred over pointers wherever possible (unless the parameter is optional, so could be `NULL`).
 
-``` c++
+{% highlight c++ %}
 unsigned processTree(const node& root)
 {
     // ...
 }
-```
+{% endhighlight %}
 
 ## Less Good Example
 
 Let's use a simple Customer class as an example.  This is valid, but not really const-correct code:
 
-``` c++
+{% highlight c++ %}
 class Customer
 {
     public:
@@ -82,7 +82,7 @@ unsigned Invoice::getInvoiceCountFor(Customer& cust)
 {
     // ...call any methods
 }
-```
+{% endhighlight %}
 
 There are several opportunities here to add `const` qualifiers to the code.  The accessor method for `name` does not modify the object state, so it can be made into a `const` method by adding the keyword at the end of the method signature.  The initial value for `name` in the constructor, along with the new name in the mutator can both take `const` references to strings (instead of passing by-value, which is less efficient).
 
@@ -90,7 +90,7 @@ There are several opportunities here to add `const` qualifiers to the code.  The
 
 So the above code becomes:
 
-``` c++
+{% highlight c++ %}
 class Customer
 {
     public:
@@ -122,7 +122,7 @@ unsigned Invoice::getInvoiceCountFor(const Customer& cust)
 {
     // ...call any const methods
 }
-```
+{% endhighlight %}
 
 Once you have a `const` reference to an object (such as the `cust` parameter above in `getInvoiceCountFor()`, you can only call `const` methods on that object.  For example, the compiler will flag it as an error if you try to call `setName()`, as it is a mutating method.
 

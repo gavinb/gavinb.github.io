@@ -8,9 +8,9 @@ categories:
 
 Pop quiz: what does the `remove` function provided in the C++ STL algorithm package do?
 
-``` c++
+{% highlight c++ %}
 std::remove(list<T>::iterator begin, list<T>::iterator end, T& t);
-```
+{% endhighlight %}
 
 Simple question, surely... Your answer?
 
@@ -20,9 +20,9 @@ If you said "it removes the value t from the list between the two iterators" the
 
 So the way to <i>actually</i> erase something from a `std::vector`:
 
-``` c++
+{% highlight c++ %}
 v.erase(remove(v.begin(), v.end(), item));
-```
+{% endhighlight %}
 
 So all it does is shuffle the items to be deleted to the end, and return an iterator to them.  Then the `erase` method from the vector snips them off the end.
 

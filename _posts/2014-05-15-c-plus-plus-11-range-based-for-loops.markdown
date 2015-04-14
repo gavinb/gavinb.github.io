@@ -22,7 +22,7 @@ over much more than just numbers.
 The C++ container classes in the Standard Template Library (STL) provide
 iterators, but the familiar looping syntax is the rather unwieldly pattern:
 
-```c++
+{% highlight c++ %}
     #include <vector>
 
     std::vector<int> vec;
@@ -34,14 +34,14 @@ iterators, but the familiar looping syntax is the rather unwieldly pattern:
         total += n;
     }
 
-```
+{% endhighlight %}
 
 For some time, the [Boost++ project](http://www.boost.org/) has provided
 some syntactic sugar to reduce the complexity of this code considerably.  By
 using the [Boost `foreach`](http://www.boost.org/libs/foreach/) library, you
 can replace the above loop with the much simpler:
 
-```c++
+{% highlight c++ %}
     #include <boost/foreach.hpp>
     #define foreach BOOST_FOREACH
 
@@ -51,13 +51,13 @@ can replace the above loop with the much simpler:
     {
         total += n;
     }
-```
+{% endhighlight %}
 
 But now the C++11 specification finally has this style of syntax built in to
 the language (with a slight change of punctuation; it uses `:` rather than
 `,`). So now you can write:
 
-```c++
+{% highlight c++ %}
     #include <vector>
 
     std::vector<int> vec;
@@ -66,7 +66,7 @@ the language (with a slight change of punctuation; it uses `:` rather than
     {
         total += n;
     }
-```
+{% endhighlight %}
 
 This is obviously much cleaner and clearer than the explicit iterator-based
 code shown above.  If all you need to do is iterate over an STL container,
@@ -80,13 +80,13 @@ example, using the `reduce` algorithm is even better.)
 So how does this new [range-based `for`](http://en.cppreference.com/w/cpp/language/range-for)
 loop actually work?  Well, given the simple expression:
 
-```c++
+{% highlight c++ %}
     for ( range_declaration : range_expression ) loop_statement		
-```
+{% endhighlight %}
 
 this loop is equivalent to the following expanded code:
 
-```c++
+{% highlight c++ %}
     {
         auto && __range = range_expression;
         for (auto __begin = __range.begin(),
@@ -97,7 +97,7 @@ this loop is equivalent to the following expanded code:
             loop_statement
         }
     }
-```
+{% endhighlight %}
 
 Stepping through line by line, we see that the `for` loop lives inside its
 own block. First, `__range` is evaluated to determine the sequence over
@@ -125,13 +125,13 @@ containers that live outside the STL.
 
 The simple form of their declarations are as follows:
 
-```c++
+{% highlight c++ %}
 template< class C > 
 auto begin( C& c ) -> decltype(c.begin());
 
 template< class C > 
 auto end( C& c ) -> decltype(c.end());
-```
+{% endhighlight %}
 
 This uses some new C++11 features to basically say that, for whatever type
 you pass to these functions, they will return you something of the same type
@@ -156,7 +156,7 @@ and then you need an iterator class with the following features:
 Given a container class, you could define your iterator class something like
 this, for example:
 
-```c++
+{% highlight c++ %}
     class MyIterator
     {
     public:
@@ -191,7 +191,7 @@ this, for example:
     {
         return m_container.get(m_index);
     }
-```
+{% endhighlight %}
 
 Its responsibilities are primarily to keep a reference to its container
 proper, and maintain the index of the current item.  The methods marked
@@ -201,7 +201,7 @@ loop support.  The implementation is very straightforward.
 The container class must provide methods to generate iterator classes;
 something like this:
 
-```c++
+{% highlight c++ %}
     class MyContainer
     {
     public:
@@ -222,12 +222,12 @@ something like this:
     
         //...
     };
-```
+{% endhighlight %}
 
 This allows your own custom classes to be used in a very natural way with
 the new `for` loop, such as this example:
 
-```c++
+{% highlight c++ %}
     MyContainer     cont(10);
 
     cont.add(MyObject(9, "IX"));
@@ -239,6 +239,6 @@ the new `for` loop, such as this example:
     {
         std::cout << obj.number() << ": " << obj.description() << std::endl;
     }
-```
+{% endhighlight %}
 
 The full source to the examples is available in my [Github C++11 samples](https://github.com/gavinb/cplusplus11/rangefor/).

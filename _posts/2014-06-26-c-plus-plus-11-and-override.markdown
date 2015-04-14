@@ -19,7 +19,7 @@ easily corrected.
 
 Imagine we have the following code:
 
-```c++
+{% highlight c++ %}
 // Base class with virtual method
 class Base0
 {
@@ -40,7 +40,7 @@ public:
         std::cout << "Derived0::foo(float)" << std::endl;
     }
 };
-```
+{% endhighlight %}
 
 The intent was for `Derived0` to implement its own `foo()` method to
 override the `Base0::foo(int)` method.  However, the developer made a
@@ -52,20 +52,20 @@ polymorphic call on a `Base0` pointer type to a `Derived0` instance was
 expected to call the derived implementation.  In other words, given some
 test code which exercises the `foo` method for each class, if we write:
 
-```c++
+{% highlight c++ %}
 std::unique_ptr<Base0>   b0(new Base0);
 std::unique_ptr<Base0>   d0(new Derived0);
 
 b0->foo(123);
 d0->foo(123);
-```
+{% endhighlight %}
 
 then the output we see is not what we might expect:
 
-```c++
+{% highlight c++ %}
 Base0::foo(int)
 Base0::foo(int)
-```
+{% endhighlight %}
 
 The developer had intended that `Derived0` be invoked in the second call,
 but the `Base0` version was called instead, since it matches the type
@@ -77,7 +77,7 @@ an overriding method.
 The fix is to add the `override` modifier to the method declaration in the
 derived class to make our intentions explicit.
 
-```c++
+{% highlight c++ %}
 // Base class with virtual method
 class Base1
 {
@@ -99,34 +99,34 @@ public:
         std::cout << "Derived1::foo(int)" << std::endl;
     }
 };
-```
+{% endhighlight %}
 
 Now if we attempt to compile this code, we will receive the following error:
 
-```
+{% highlight bash %}
 override1.cpp:28:18: error: 'foo' marked 'override' but does not override any member functions
     virtual void foo(float num) override;
                  ^
 1 error generated.
-```
+{% endhighlight %}
 
 The fix is simple; update the type signature to match the parent.  The code
 then compiles, and the following test code:
 
-```c++
+{% highlight c++ %}
 std::unique_ptr<Base1>   b1(new Base1);
 std::unique_ptr<Base1>   d1(new Derived1);
 
 b1->foo(123);
 d1->foo(123);
-```
+{% endhighlight %}
 
 works correctly, producing the following expected result:
 
-```
+{% highlight c++ %}
 Base1::foo(int)
 Derived1::foo(int)
-```
+{% endhighlight %}
 
 # When to use `override`
 

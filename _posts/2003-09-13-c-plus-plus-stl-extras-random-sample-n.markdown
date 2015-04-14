@@ -16,7 +16,7 @@ Anyway, I found just the function I was after: `random_sample_n`.  So I added th
 
 Another thing: I didn't find any decent examples (the one in the SGI docs is trivial) so here is some real code:
 
-``` c++
+{% highlight c++ %}
 #include <ext/algorithm>
 //...
 
@@ -30,7 +30,7 @@ Another thing: I didn't find any decent examples (the one in the SGI docs is tri
     __gnu_cxx::random_sample_n( cxp.begin(), cxp.end(), rs_model.begin(), N );
 
     // Now process rs_model ...
-```
+{% endhighlight %}
 
 ## 2013 Update
 

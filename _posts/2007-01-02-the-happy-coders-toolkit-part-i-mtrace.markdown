@@ -14,13 +14,13 @@ The memory management provided by the standard `libc` library with GCC provides 
 
 To start with, add:
 
-``` c
+{% highlight c %}
 #include <mtrace.h>
-```
+{% endhighlight %}
 
 to the includes list at the top of your main module.  Then add a call to `mtrace()` right at the very top of main, conditionally compiled, like:
 
-``` c
+{% highlight c %}
 int main( int argc, char* argv[], char* envp[] )
 {
     /* locals etc ... */
@@ -32,7 +32,7 @@ int main( int argc, char* argv[], char* envp[] )
     /* do something funky... */
     return 0;
 }
-```
+{% endhighlight %}
 
 This will install special handlers to intercept calls to `malloc/free` et al.  Then you can enable this feature as required.
 
@@ -40,9 +40,7 @@ At runtime, the `MALLOC_TRACE` environment variable must be set to the name of t
 
 You can run your program like this:
 
-```
-% MALLOC_TRACE=myapp.mtrace ./myapp -f 123 foo.dat
-```
+    % MALLOC_TRACE=myapp.mtrace ./myapp -f 123 foo.dat
 
 Once your program has terminated, you can then go ahead and analyse the output using the supplied `mtrace` tool.  You point it to your binary (so it can pull out the symbol table) and to the saved `.mtrace` file (from above) and - behold! - a big list of all your leakage.
 

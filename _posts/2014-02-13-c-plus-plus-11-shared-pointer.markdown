@@ -36,7 +36,7 @@ called).
 Imagine we have a worker thread function which needs to use a shared resource.
 We can pass the worker thread a shared pointer:
 
-```c++
+{% highlight c++ %}
 void worker(std::shared_ptr<Foo>& obj)
 {
     printf("tid %p worker: running, obj %p use_count %ld\n",
@@ -47,7 +47,7 @@ void worker(std::shared_ptr<Foo>& obj)
     // Do something useful with obj
     obj->process();
 }
-```
+{% endhighlight %}
 
 We can use the object in as many threads as we need, and they can all terminate
 at an arbitrary time. The object will stay alive until the last thread has
@@ -56,7 +56,7 @@ finished, and releases its reference.
 In this example, the `main()` function creates an instance, then passes the
 smart pointer to several worker threads:
 
-```c++
+{% highlight c++ %}
     std::shared_ptr<Foo> obj(new Foo);
 
     std::thread w1(std::bind(worker, obj));
@@ -64,7 +64,7 @@ smart pointer to several worker threads:
 
     w1.join();
     w2.join();
-```
+{% endhighlight %}
 
 Note the use of `std::bind` to pass the `obj` pointer as a reference parameter
 to the thread function;  normally thread function parameters are passed by

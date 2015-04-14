@@ -34,22 +34,22 @@ and message passing.
 
 What does it look like? I would describe it as terse - or rather, minimalist.
 
-``` rust
+{% highlight rust %}
 fn main() {
     println!("Hello, world");
 }
-```
+{% endhighlight %}
 
 Ok, that's not very useful. How about a naïve Fibonacci function:
 
-``` rust
+{% highlight rust %}
 fn fib(n: uint) -> uint {
     match n {
         0..1    => 1,
         _       => fib(n-1) + fib(n-2)
     }
 }
-```
+{% endhighlight %}
 
 Yes, Rust has **pattern matching** just like Haskell. Forget about the simple
 `switch` statement - `match` is super-powerful and flexible, supporting ranges,
@@ -57,7 +57,7 @@ options and destructuring fields from `struct`s.
 
 What about some tasks:
 
-``` rust
+{% highlight rust %}
 fn test_tasks() {
     println("About to spawn...");
 
@@ -69,7 +69,7 @@ fn test_tasks() {
         println("Hello from another subtask!");
     }
 }
-```
+{% endhighlight %}
 
 Despite having spent years working in C++, I have often lamented its
 shortcomings. Yet until recently, no other language seems to have come close to

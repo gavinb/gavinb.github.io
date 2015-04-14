@@ -98,7 +98,7 @@ Creating a condition varaible is as simple as declaring one, though here we
 show the complete set: condition variable, its mutex and the actual state
 variable:
 
-```c++
+{% highlight c++ %}
     #include <boost/thread.hpp>
 
     // ...
@@ -106,28 +106,28 @@ variable:
     boost::condition_variable   data_ready_cond;
     boost::mutex                data_ready_mutex;
     bool                        data_ready = false;
-```
+{% endhighlight %}
 
 To raise a condition, the code controlling the state can notify other
 threads by either notifying waiting *all* threads, or just *one* waiting
 thread.  In the case of notifying *one* waiting thread, which one gets
 notified is indeterminate. Here we see how to notify *all* waiting threads:
 
-```c++
+{% highlight c++ %}
     data_ready = true;
     data_ready_cond.notify_all();
-```
+{% endhighlight %}
 
 Threads interested in being notified of the state change must use a loop
 to wait for the condition variable:
 
-```c++
+{% highlight c++ %}
     boost::unique_lock<boost::mutex> lock(data_ready_mutex);
     while (!data_ready)
     {
         data_ready_cond.wait(lock);
     }
-```
+{% endhighlight %}
 
 The *lock* is used to prevent data races when multiple threads awaken (see
 above), and is passed to the `wait()` method where the condition actually
@@ -146,7 +146,7 @@ waiting on the master to signal the condition. The master starts up, waits
 for a short while pretending to work, and then calls `notify_all()`. At this
 point, all the slaves wake up and terminate.
 
-```
+{% highlight bash %}
     Spawning threads...
     +++ slave thread: 1
     +++ slave thread: 4
@@ -162,4 +162,4 @@ point, all the slaves wake up and terminate.
     --- slave thread: 2
     --- slave thread: 3
     Done
-```
+{% endhighlight %}

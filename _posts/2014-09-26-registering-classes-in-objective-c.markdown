@@ -28,12 +28,12 @@ register the new class, hence the function name.  The final parameter allows
 us to allocate some additional memory beyond that used for `Ivar`s.  In most
 cases, this is not needed, so you pass 0.
 
-```c
+{% highlight c %}
     // Metaclass and Class
 
     Class NSObjectClass = objc_getClass("NSObject");
     Class SampleClass = objc_allocateClassPair(NSObjectClass, "Sample", 0);
-```
+{% endhighlight %}
 
 At this point, we have only allocated the `Sample` class, but it is not yet
 registered.  First, we need to populate it with methods, ivars, and
@@ -44,14 +44,14 @@ properties.
 The simplest to register is an instance variable.  We pass in the `Class` we
 just allocated, the name of the variable, its size and type:
 
-```c
+{% highlight c %}
     class_addIvar(SampleClass, "_", 8, 8, "@\"NSWindow\"");
-```
+{% endhighlight %}
 
 # Registering a property
 
 
-```c
+{% highlight c %}
     // Ivars
 
     class_addIvar(SampleClass, "_window", 8, 8, "@\"NSWindow\"");
@@ -65,26 +65,26 @@ just allocated, the name of the variable, its size and type:
     };
 
     class_addProperty(SampleClass, "window", &windowAttrs, 1);
-```
+{% endhighlight %}
 
 # Registering methods
 
 Given two simple Objective-C methods that would be declared like this:
 
-```c
+{% highlight c %}
 -(void)test;
 
 -(int)addNumber:(int) toNumber:(int);
-```
+{% endhighlight %}
 
 They are equivalent to the following C functions (with the implicit
 parameters given):
 
-```c
+{% highlight c %}
 void testIMP(id self, SEL _cmd);
 
 int addNumber_toNumber_IMP(id self, SEL _cmd, int a, int b);
-```
+{% endhighlight %}
 
 As discussed in the previous article, a method is referred to by a
 *selector*, which is a unique handle (number) for efficiency's sake.  So
@@ -93,15 +93,15 @@ register.  The existing selector ID will be returned if it is already
 registered, or it will be created and returned transparently.
 
 
-```c
+{% highlight c %}
     // Method selectors
 
     SEL testSEL = sel_registerName("test");
     SEL addNumber_toNumber_SEL = sel_registerName("addNumber:toNumber:");
-```
-```c
+{% endhighlight %}
+{% highlight c %}
     // Method implementations
 
     class_addMethod(SampleClass, testSEL, (IMP)testIMP, "v@:");
     class_addMethod(SampleClass, addNumber_toNumber_SEL, (IMP)addNumber_toNumber_IMP, "i@:ii");
-```
+{% endhighlight %}

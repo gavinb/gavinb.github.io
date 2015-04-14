@@ -36,7 +36,7 @@ There are four flavours of mutexes available in Boost, depending on your require
 
 The simplest form of mutex is a regular `boost::mutex`.  You lock and unlock it, and only one thread can lock the mutex at a time.  Any thread that calls `lock()` on a mutex held by another thread will block indefinitely (an important factor when considering synchronisation).  This is worth repeating: calling `lock()` can block *indefinitely*.  This may be the desired behaviour, as your thread may need to wait an undetermined time for something else to happen (but this then raises issues of interruption).  It should be obvious then that this must be carefully managed to avoid program hangs, a common symptom of concurrency failure.
 
-```c++
+{% highlight c++ %}
     boost::mutex work_queue_mutex;
     queue<item> work_queue;
 
@@ -47,11 +47,11 @@ The simplest form of mutex is a regular `boost::mutex`.  You lock and unlock it,
     auto work_item = work_queue.pop();
 
     work_queue_mutex.unlock();
-```
+{% endhighlight %}
 
 Regular mutexes also have a `try_lock()` method, which will return immediately with a failure status if the mutex cannot locked.  Since most threads run in a loop, it would be terribly inefficient to try to lock a mutex and then continue around the loop without performing anything else, especially when it is unlikely that the mutex will become immediately available.  In these cases, it *may* be appropriate to do a short sleep (but see below for a better solution).  Even then, this may be a sign that your algorithm needs improvement.  Unfortunately, there are no one-size-fits-all solutions.
 
-```c++
+{% highlight c++ %}
     boost::mutex work_queue_mutex;
     queue<item> work_queue;
 
@@ -67,13 +67,13 @@ Regular mutexes also have a `try_lock()` method, which will return immediately w
 	{
 		// Do something else...
 	}
-```
+{% endhighlight %}
 
 ### Timed Mutexes
 
 The `boost::timed_mutex` class is a subtype of `boost::mutex`, which adds the ability to specify a timeout.  For example, you may wish to try to lock the mutex but give up after a certain time if you cannot obtain a lock.  This takes either an absolute time, or a relative time.  If the mutex cannot be obtained within the time specified, the call will return false and the mutex is not held.  If the mutex is locked within the timeout period, it returns true.
 
-```c++
+{% highlight c++ %}
     boost::mutex work_queue_mutex;
     queue<item> work_queue;
 	TimeDuration mutex_timeout;
@@ -86,7 +86,7 @@ The `boost::timed_mutex` class is a subtype of `boost::mutex`, which adds the ab
 
 	    work_queue_mutex.unlock();
 	}
-```
+{% endhighlight %}
 
 ### Recursive Mutexes
 
@@ -104,7 +104,7 @@ Any time the reading threads need to read the resource, they obtain a read-lock.
 
 One of the example programs shows this in action.
 
-```c++
+{% highlight c++ %}
     boost::mutex work_queue_mutex;
     queue<item> work_queue;
 
@@ -123,7 +123,7 @@ One of the example programs shows this in action.
     auto work_item = work_queue.push(new_item);
 
     work_queue_mutex.unlock();
-```
+{% endhighlight %}
 
 ### Summary
 
@@ -165,7 +165,7 @@ To protect against this class of problem, the `lock_guard` object was introduced
 
 This simple example code shows potentially unsafe method implementation.
 
-```c++
+{% highlight c++ %}
 	void writeTotalsToDatabase() throw (myapp::SQLException)
 	{
 	    // does SQL stuff, and throws on error
@@ -181,11 +181,11 @@ This simple example code shows potentially unsafe method implementation.
 	    
 	    mTotalsMutex.unlock();
 	}
-```
+{% endhighlight %}
 
 This code looks at first glance to be safe.  It simply makes the updating and saving of the totals atomic, right?  Well, yes - except if there's an exception thrown by `writeTotalsToDatabase()`.  If that happens, the normal flow of execution goes out the window, and the program unwinds the stack in search of a suitable `catch` statement.  And the lock that we have acquired will never be released!  This is very dangerous, and can happen in seemingly "safe" code.  While you could certainly put a `try/catch` around the database method, a better way is to use a lock guard.
 
-```c++
+{% highlight c++ %}
 	unsigned applyTotals(unsigned count)
 	{
 	    boost::lock_guard    totalsLock(mTotalsMutex);
@@ -194,7 +194,7 @@ This code looks at first glance to be safe.  It simply makes the updating and sa
 	    
 	    writeTotalsToDatabase();
 	}
-```
+{% endhighlight %}
 
 The `totalsLock` will acquire (or wait to acquire) the mutex at the start, and when it goes out of scope at the end of the method, it will unlock the mutex.  If an exception is thrown, the lock's destructor will be invoked as part of unwinding the stack, and there the mutex will be safely released.  This ensures the operation is atomic, and can safely handle error conditions.
 
@@ -208,7 +208,7 @@ Shared Object with One Mutex
 
 Imagine you have a shared object, such as a singleton, that may be accessed by multiple threads in the system.  A simple solution to ensure consistent data is returned is to give the object a mutex, and use a lock guard in every method.  For example:
 
-```c++
+{% highlight c++ %}
 	class Baz
 	{
 	    public:
@@ -229,7 +229,7 @@ Imagine you have a shared object, such as a singleton, that may be accessed by m
 	        boost::mutex m_mutex;
 	        double		m_total;
 	};
-```
+{% endhighlight %}
 
 A note on performance
 ---------------------

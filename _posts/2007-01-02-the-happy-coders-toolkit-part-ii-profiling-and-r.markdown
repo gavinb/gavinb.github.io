@@ -12,7 +12,7 @@ Add some debug code to your app to write out the raw numbers you're interested i
 <!--more-->
 It's as simple as:
 
-``` c
+{% highlight c %}
   FILE* perfdata = fopen("foo_perf.dat", "w");
 
   /* Simple header */
@@ -26,18 +26,18 @@ It's as simple as:
     fprintf( perfdata, "%u %d %f %f", count, gen->rank, gen->score, gen->delta );
   }
   fclose( fp );
-```
+{% endhighlight %}
 
 Then you can use [GNU R](http://www.r-project.org/) to plot the numbers over time, and quickly visualise what your code is doing.
 
-``` r
+{% highlight r %}
 > perf <- read.table("foo_perf.dat", header=TRUE)
 > plot(perf)
 > plot(perf$score ~ perf$delta)
 > plot(perf$rank, type='l')
-```
+{% endhighlight %}
 
-Enlightment!
+Enlightenment!
 
 You can also write out a timestamp (the canonical float time since epoch will do fine) and use the powerful time series tools too.  Or simply subtract the value of the first timestamp entry from the column (eg. `attach perf ; tstamp <- tstamp - tstamp[1]`) and you have a convenient "zero time" and your x-axis becomes a measure of milliseconds since the event.  Why, there's no end to the fun! :)
 

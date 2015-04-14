@@ -25,7 +25,7 @@ to create subclasses).
 
 Given a base class and a derived class, you would normally write:
 
-```c++
+{% highlight c++ %}
 class Base0
 {
 };
@@ -33,12 +33,12 @@ class Base0
 class Derived0 : Base0
 {
 };
-```
+{% endhighlight %}
 
 However, if you wish to prevent the base class from being subclassed, simply
 add `final` after the classname, thus:
 
-```c++
+{% highlight c++ %}
 class Base1 final
 {
 };
@@ -47,11 +47,11 @@ class Base1 final
 class Derived1 : Base1
 {
 };
-```
+{% endhighlight %}
 
 If you try to compile this code, you will get the error:
 
-```
+{% highlight bash %}
 finalclass.cpp:16:18: error: base 'Base1' is marked 'final'
 class Derived1 : Base1
                  ^
@@ -59,7 +59,7 @@ finalclass.cpp:12:7: note: 'Base1' declared here
 class Base1 final
       ^
 1 error generated.
-```
+{% endhighlight %}
 
 The compiler specifically prevents any subclassing of `Base1` with a hard
 error.
@@ -76,7 +76,7 @@ method that overrides the base method.)
 Take the following simple example of a derived class overriding a virtual
 function declared in the base:
 
-```c++
+{% highlight c++ %}
 class Base0
 {
     virtual void foo();
@@ -86,14 +86,14 @@ class Derived0 : Base0
 {
     void foo();
 };
-```
+{% endhighlight %}
 
 This compiles and works just fine.  But if we wanted to ensure that the
 method was not reimplmented in any derived classes (For example, to preserve
 important behaviour), simply adding the `final` modifier at the end of the
 method declaration.  So given the following example:
 
-```c++
+{% highlight c++ %}
 class Base1
 {
     virtual void foo() final;
@@ -104,11 +104,11 @@ class Derived1 : Base1
     // Error!
     void foo();
 };
-```
+{% endhighlight %}
 
 the compiler gives us the following error:
 
-```
+{% highlight bash %}
 finalmethod.cpp:21:10: error: declaration of 'foo' overrides a 'final' function
     void foo();
          ^
@@ -116,7 +116,7 @@ finalmethod.cpp:16:18: note: overridden virtual function is here
     virtual void foo() final;
                  ^
 1 error generated.
-```
+{% endhighlight %}
 
 # Why is `final` useful?
 

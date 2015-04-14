@@ -14,7 +14,7 @@ Say you have a Master-Detail relationship between two classes, whereby the maste
 
 And as a convenience, the master class has a method which returns a copy of the list <i>by value</i>.  This is quite a reasonable thing to do, especially since the container holds references to the detail objects, and not actual instances.  So we have something like this:
 
-``` c++
+{% highlight c++ %}
 class Detail
 {
     public:
@@ -33,7 +33,7 @@ class Master
   private:
     Detail::List _details;
 };
-```
+{% endhighlight %}
 
 So far, so good...
 
@@ -41,7 +41,7 @@ So far, so good...
 
 And say some chunk of code wants to do something with all those detail objects, so we might reasonably iterate over the list like so:
 
-``` c++
+{% highlight c++ %}
 // You probably don't actually want to do it this way...
 Detail::List::iterator it;
 for ( it = master.getAllDetailedObjects().begin();
@@ -51,7 +51,7 @@ for ( it = master.getAllDetailedObjects().begin();
     Detail* d = *it;
     // do something useful with d
 }
-```
+{% endhighlight %}
 
 And of course, this code crashes, right around the dereferencing of the iterator.  Spotted the bug yet?  Take your time, I'll wait here...
 
@@ -61,7 +61,7 @@ Well, it's a pretty basic error when you know what it is, of course.  Each time 
 
 The obvious solution is to avoid temporaries and get only one copy of the list, thus:
 
-``` c++
+{% highlight c++ %}
 // The corrected version...
 Detail::List details;
 Detail::List::iterator it;
@@ -72,7 +72,7 @@ for ( it = details.begin();
     Detail* d = *it;
     // do something with d
 }
-```
+{% endhighlight %}
 
 This just goes to show how easy it is to be bitten by side-effects and temporaries in C++.  The compiler provides no help or warning, and there's no proper C++ version of lint that I know of.  This is the sort of thing you just have to pick apart, review all assumptions ("the list is valid <b>here</b>!") and beware any time you get a result by value.
 
@@ -82,34 +82,34 @@ The <a href="http://www.boost.org/doc/html/foreach.html">Boost foreach</a> modul
 
 So instead of having to write:
 
-``` c++
+{% highlight c++ %}
 container_type::iterator it;
 for ( it = container.begin(); it != container.end(); ++it )
 {
     inner_type val = *it;
     // do something interesting with val
 }
-```
+{% endhighlight %}
 
 you can avoid all the boilerplate code and simply write:
 
-``` c++
+{% highlight c++ %}
 foreach ( inner_type val, container )
 {
     // do something interesting with val
 }
-```
+{% endhighlight %}
 
 which is more concise, readable and less typing (or typo-ing!).
 
 And interestingly, it ensures the collection term is evaluated only once, which means it would be safe to iterate over an expression that returns a sequence by value (example from the docs):
 
-``` c++
+{% highlight c++ %}
 extern std::vector<float> get_vector_float();
 foreach( float f, get_vector_float() )
 {
   // safe: the collection will only be retrieved once
 }
-```
+{% endhighlight %}
 
 So using the Boost foreach module would have actually avoided the above bug.  Though it wouldn't be nearly as satisfying, as I wouldn't have been able to blog about it.

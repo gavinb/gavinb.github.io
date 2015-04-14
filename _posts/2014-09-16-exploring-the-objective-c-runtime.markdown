@@ -52,26 +52,26 @@ display the methods supported by a class.  A class is simply identified by
 its name as a string, so we can obtain the `Class` definition for `NSString`
 thus:
 
-```objc
+{% highlight objc %}
     const char* className = "NSString";
 
     Class klass = objc_getClass(className);
-```
+{% endhighlight %}
 
 Using this `klass` variable, we can obtain a complete definition of the
 methods, ivars and properties assocated with this type.  Let's start by
 looking at methods - we obtain the list by asking for a *copy* of the list
 (ie. we are responsible for freeing the memory when done):
 
-```objc
+{% highlight objc %}
     unsigned int methodCount = 0;
     Method* methods = class_copyMethodList(klass, &methodCount);
-```
+{% endhighlight %}
 
 Simple! Now we have our own array of `methodCount` `Method` instances,
 so we can iterate through the list
 
-```objc
+{% highlight objc %}
     for (unsigned i = 0; i < methodCount; i++)
     {
         Method method = methods[i];
@@ -80,7 +80,7 @@ so we can iterate through the list
 
         printf("%s\n", methodName);
     }
-```
+{% endhighlight %}
 
 Notice that when we ask a method for its name, we get a `SEL` or selector
 back (not a string).  This is because of the way method dispatch works in
@@ -96,22 +96,22 @@ string.
 Since we own the copy of the method list, we must `free` the memory when
 we are finished:
 
-```objc
+{% highlight objc %}
     free(methods);
-```
+{% endhighlight %}
 
 A very similar approach can be used to query all the instance variables
 defined in a class:
 
-```objc
+{% highlight objc %}
     unsigned int ivarCount = 0;
     Ivar* ivars = class_copyIvarList(klass, &ivarCount);
-```
+{% endhighlight %}
 
 And once again, loop through and process each `Ivar` (remembering to free
 the memory when we are finished):
 
-```objc
+{% highlight objc %}
     for (unsigned i = 0; i < ivarCount; i++)
     {
         Ivar ivar = ivars[i];
@@ -119,13 +119,13 @@ the memory when we are finished):
     }
 
     free(ivars);
-```
+{% endhighlight %}
 
 Running this code and querying the `NSString` class from Cocoa, we see the
 following methods are printed like this (only the first few are shown; there
 are over 200!):
 
-```
+{% endhighlight %}
 NSString
 initWithPasteboardPropertyList:ofType:
 writableTypesForPasteboard:
@@ -143,7 +143,7 @@ drawInRect:withAttributes:
 drawAtPoint:withAttributes:
 _NSNavDisplayNameCompare:caseSensitive:
 ...
-```
+{% endhighlight %}
 
 An important note: methods that begin with an underscore are considered
 private, and subject to change. Do *not* call these unpublished methods, as
@@ -163,14 +163,14 @@ consists of a key/value pair of strings (where the value is often empty).
 As above, the first step to list the properties is to get a copy of the
 properties from the class:
 
-```objc
+{% highlight objc %}
     unsigned int propertyCount = 0;
     objc_property_t* properties = class_copyPropertyList(klass, &propertyCount);
-```
+{% endhighlight %}
 
 Then we can iterate through each property and display its name and attributes:
 
-```objc
+{% highlight objc %}
     for (unsigned i = 0; i < propertyCount; i++)
     {
         objc_property_t property = properties[i];
@@ -178,7 +178,7 @@ Then we can iterate through each property and display its name and attributes:
     }
 
     free(properties);
-```
+{% endhighlight %}
 
 These attributes pertain to topics such as `weak` references, and so on.
 
@@ -194,15 +194,15 @@ manage symbol tables, compare types, and interoperate with other languages
 
 Let's look at a simple example. Given the following Objective-C method:
 
-```objc
+{% highlight objc %}
 -(int)addNumber:(int)a toNumber:(int)b;
-```
+{% endhighlight %}
 
 This is equivalent to the C function declaration:
 
-```objc
+{% highlight objc %}
 int addNumber_toNumber_IMP(id self, SEL _cmd, int a, int b);
-```
+{% endhighlight %}
 
 The return type and two regular parameters are both `int`, which is encoded
 as `i`.  But note that first there are implicit `self` and `_cmd`

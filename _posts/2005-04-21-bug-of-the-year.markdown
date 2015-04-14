@@ -10,9 +10,8 @@ I discovered the weirdest bug the other day...
 
 I had built a new version of the imaging system, tested it and was ready to deploy it.  It was working great on the development box, and it seemed ready to go.  I downloaded the new version on the target machine, and fired it up, expecting to have only a few minutes downtime. And then...
 <!--more-->
-```
-Floating point exception
-```
+
+    Floating point exception
 
 Oops.
 

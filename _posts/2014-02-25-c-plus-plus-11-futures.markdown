@@ -48,21 +48,21 @@ same time, and the results picked up as each finishes.
 Imagine we have a boring function which will take an undetermined but long time
 to complete:
 
-```c++
+{% highlight c++ %}
 unsigned boring()
 {
     // Consume many CPU cycles...
     // ...then eventually...
     return boring_result;
 }
-```
+{% endhighlight %}
 
 Rather than calling this function directly and waiting for its result, we can
 invoke it asynchronously:
 
-```c++
+{% highlight c++ %}
 std::future<unsigned> ans = std::async(boring);
-```
+{% endhighlight %}
 
 What is returned *immediately* is a `future` object or token (templated over the
 return type of the function we are calling), which allows us to query the status
@@ -77,9 +77,9 @@ processing while this boring work is being done in the background.
 To retrieve the answer, we simply call `get()` on the `future` object when we
 need to access the result:
 
-```c++
+{% highlight c++ %}
 unsigned result = ans.get();
-```
+{% endhighlight %}
 
 This will block until the result of the `future` is ready, and then return
 the value from `boring()`.
@@ -95,7 +95,7 @@ a certain time to elapse (`wait_for()`) or wait until a clock time is reached
 (`wait_until()`).  This fragment shows how you can wait 5ms for a result,
 retrieving it if available, and continuing if not:
 
-```c++
+{% highlight c++ %}
 std::chrono::milliseconds wait_time_ms(5);
 
 std::future_status status = ans.wait_for(wait_time_ms);
@@ -104,7 +104,7 @@ if (status == std::future_status::ready)
 {
     unsigned result = ans.get();
 }
-```
+{% endhighlight %}
 
 A more complete example shows monitoring the status of multiple `async` calls,
 displaying the result as each finishes.
