@@ -1,6 +1,6 @@
 # Site settings
 title: antonym.org
-email: gavinb+blog@antonym.org
+email: feedback@antonym.org
 description: > # this means to ignore newlines until "baseurl:"
   Articles on programming and Software Engineering.
 baseurl: "" # the subpath of your site, e.g. /blog/
