@@ -241,4 +241,4 @@ the new `for` loop, such as this example:
     }
 {% endhighlight %}
 
-The full source to the examples is available in my [Github C++11 samples](https://github.com/gavinb/cplusplus11/rangefor/).
+The full source to the examples is available in my [Github C++11 samples](https://github.com/gavinb/cplusplus11/tree/master/rangefor/).

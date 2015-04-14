@@ -145,9 +145,9 @@ modifier in order to build.
 
 # Sample Code
 
-THe sample code can be otained from:
+THe sample code can be otained from Github:
 
-- https://github.com/gavinb/cplusplus11/override/
+- [Override sample code](https://github.com/gavinb/cplusplus11/blob/master/override/override1.cpp)
 
 # Final vs Override
 
