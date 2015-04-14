@@ -4,13 +4,25 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">Posts</h1>
+  <h1 class="page-heading">C++11 Articles</h1>
+  <ul class="post-list">
+    {% for post in site.posts %}
+      {% for cat in post.categories %}
+        {% if cat == 'c++11' %}
+          <li>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </ul>
+
+  <h1 class="page-heading">All Posts</h1>
 
   <ul class="post-list">
     {% for post in site.posts %}
       <li>
         <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
         <h2>
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
