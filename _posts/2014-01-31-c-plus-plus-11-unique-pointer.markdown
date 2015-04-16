@@ -22,21 +22,21 @@ pointer types in C++11.
 Whereas before, you might write:
 
 {% highlight c++ %}
-    Foo* obj = new Foo;
+Foo* obj = new Foo;
 
-    obj->process();
+obj->process();
 
-    delete obj;
+delete obj;
 {% endhighlight %}
 
 you can now write:
 
 {% highlight c++ %}
-    std::unique_ptr<Foo> obj(new Foo);
+std::unique_ptr<Foo> obj(new Foo);
 
-    obj->process();
+obj->process();
 
-    // obj will be automatically deleted
+// obj will be automatically deleted
 {% endhighlight %}
 
 ## Properties
@@ -109,10 +109,10 @@ If you wish to delete the object before the holding pointer goes out of scope,
 you can use the `reset()` method on the smart pointer:
 
 {% highlight c++ %}
-    std::unique_ptr<Foo> obj(new Foo);
+std::unique_ptr<Foo> obj(new Foo);
 
-    obj->process();
-    obj.reset();
+obj->process();
+obj.reset();
 {% endhighlight %}
 
 (Notice that methods invoked on the smart pointer itself use `.` whereas
@@ -137,11 +137,11 @@ scope.  This is a subtle but important point.
 What happens if we try to assign this pointer to another smart pointer?
 
 {% highlight c++ %}
-    std::unique_ptr<Foo> obj(new Foo);
+std::unique_ptr<Foo> obj(new Foo);
 
-    std::unique_ptr<Foo> obj2;
+std::unique_ptr<Foo> obj2;
 
-    obj2 = obj;
+obj2 = obj;
 {% endhighlight %}
 
 We get a meaningful compiler error:
@@ -160,10 +160,10 @@ topic). This transfers ownership of the pointer from one `unique_ptr` instance
 to another:
 
 {% highlight c++ %}
-    std::unique_ptr<Foo> obj1(new Foo);
-    std::unique_ptr<Foo> obj2;
+std::unique_ptr<Foo> obj1(new Foo);
+std::unique_ptr<Foo> obj2;
 
-    obj2 = std::move(obj1);
+obj2 = std::move(obj1);
 {% endhighlight %}
 
 The output of the test program shows the result (we can access the enclosed pointer
@@ -277,7 +277,8 @@ strategies or error-prone code, and eliminate even more problems.
 
 ## Other smart pointer types
 
-Stay tuned for articles on:
+Now that you have a grasp on single owner smart pointers, you can read about
+shared pointers which can have many owners, and weak pointers:
 
-- `std::shared_ptr`
+- [`std::shared_ptr`]({% post_url 2014-02-13-c-plus-plus-11-shared-pointer %})
 - `std::weak_ptr`

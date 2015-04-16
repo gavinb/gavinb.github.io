@@ -141,7 +141,7 @@ dispatch the method call, it can potentially generate more efficient code.
 
 THe sample code can be otained from:
 
-- https://github.com/gavinb/cplusplus11/final/
+ * [https://github.com/gavinb/cplusplus11/blob/master/final/](https://github.com/gavinb/cplusplus11/tree/master/final/)
 
 # Final vs Override
 

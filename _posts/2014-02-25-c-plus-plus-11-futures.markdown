@@ -107,4 +107,6 @@ if (status == std::future_status::ready)
 {% endhighlight %}
 
 A more complete example shows monitoring the status of multiple `async` calls,
-displaying the result as each finishes.
+displaying the result as each finishes is available in the
+[C++11 async sample code](https://github.com/gavinb/cplusplus11/tree/master/future/)
+on Github.

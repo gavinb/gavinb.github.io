@@ -57,13 +57,13 @@ In this example, the `main()` function creates an instance, then passes the
 smart pointer to several worker threads:
 
 {% highlight c++ %}
-    std::shared_ptr<Foo> obj(new Foo);
+std::shared_ptr<Foo> obj(new Foo);
 
-    std::thread w1(std::bind(worker, obj));
-    std::thread w2(std::bind(worker, obj));
+std::thread w1(std::bind(worker, obj));
+std::thread w2(std::bind(worker, obj));
 
-    w1.join();
-    w2.join();
+w1.join();
+w2.join();
 {% endhighlight %}
 
 Note the use of `std::bind` to pass the `obj` pointer as a reference parameter

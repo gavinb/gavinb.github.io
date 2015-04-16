@@ -23,17 +23,16 @@ The C++ container classes in the Standard Template Library (STL) provide
 iterators, but the familiar looping syntax is the rather unwieldly pattern:
 
 {% highlight c++ %}
-    #include <vector>
+#include <vector>
 
-    std::vector<int> vec;
-    // ...
-    std::vector<int>::iter it;
-    for (it = vec.begin(); it != vec.end(); ++it)
-    {
-        int& n = *it;
-        total += n;
-    }
-
+std::vector<int> vec;
+// ...
+std::vector<int>::iter it;
+for (it = vec.begin(); it != vec.end(); ++it)
+{
+    int& n = *it;
+    total += n;
+}
 {% endhighlight %}
 
 For some time, the [Boost++ project](http://www.boost.org/) has provided
@@ -42,15 +41,15 @@ using the [Boost `foreach`](http://www.boost.org/libs/foreach/) library, you
 can replace the above loop with the much simpler:
 
 {% highlight c++ %}
-    #include <boost/foreach.hpp>
-    #define foreach BOOST_FOREACH
+#include <boost/foreach.hpp>
+#define foreach BOOST_FOREACH
 
-    std::vector<int> vec;
-    // ...
-    foreach (int& num, vec)
-    {
-        total += n;
-    }
+std::vector<int> vec;
+// ...
+foreach (int& num, vec)
+{
+    total += n;
+}
 {% endhighlight %}
 
 But now the C++11 specification finally has this style of syntax built in to
@@ -58,14 +57,14 @@ the language (with a slight change of punctuation; it uses `:` rather than
 `,`). So now you can write:
 
 {% highlight c++ %}
-    #include <vector>
+#include <vector>
 
-    std::vector<int> vec;
-    // ...
-    for (auto n : vec)
-    {
-        total += n;
-    }
+std::vector<int> vec;
+// ...
+for (auto n : vec)
+{
+    total += n;
+}
 {% endhighlight %}
 
 This is obviously much cleaner and clearer than the explicit iterator-based
@@ -81,22 +80,22 @@ So how does this new [range-based `for`](http://en.cppreference.com/w/cpp/langua
 loop actually work?  Well, given the simple expression:
 
 {% highlight c++ %}
-    for ( range_declaration : range_expression ) loop_statement		
+for ( range_declaration : range_expression ) loop_statement
 {% endhighlight %}
 
 this loop is equivalent to the following expanded code:
 
 {% highlight c++ %}
+{
+    auto && __range = range_expression;
+    for (auto __begin = __range.begin(),
+        __end = __range.end();
+        __begin != __end; ++__begin)
     {
-        auto && __range = range_expression;
-        for (auto __begin = __range.begin(),
-            __end = __range.end();
-            __begin != __end; ++__begin)
-        {
-            range_declaration = *__begin;
-            loop_statement
-        }
+        range_declaration = *__begin;
+        loop_statement
     }
+}
 {% endhighlight %}
 
 Stepping through line by line, we see that the `for` loop lives inside its
@@ -157,40 +156,40 @@ Given a container class, you could define your iterator class something like
 this, for example:
 
 {% highlight c++ %}
-    class MyIterator
-    {
-    public:
-    
-        MyIterator(const MyContainer& c, unsigned idx = 0)
-                : m_container(c),
-                  m_index(idx)
-        {}
-    
-        // Required
-        bool operator!=(const MyIterator& other)
-        {
-            return (m_index != other.m_index);
-        }
-    
-        // Required
-        const MyIterator& operator++()
-        {
-            m_index++;
-            return *this;
-        }
-    
-        // Required
-        MyObject& operator*() const;
-    
-    private:
-        const MyContainer&      m_container;
-        unsigned                m_index;
-    };
+class MyIterator
+{
+public:
 
-    MyObject& MyIterator::operator*() const
+    MyIterator(const MyContainer& c, unsigned idx = 0)
+            : m_container(c),
+              m_index(idx)
+    {}
+
+    // Required
+    bool operator!=(const MyIterator& other)
     {
-        return m_container.get(m_index);
+        return (m_index != other.m_index);
     }
+
+    // Required
+    const MyIterator& operator++()
+    {
+        m_index++;
+        return *this;
+    }
+
+    // Required
+    MyObject& operator*() const;
+
+private:
+    const MyContainer&      m_container;
+    unsigned                m_index;
+};
+
+MyObject& MyIterator::operator*() const
+{
+    return m_container.get(m_index);
+}
 {% endhighlight %}
 
 Its responsibilities are primarily to keep a reference to its container
@@ -202,43 +201,43 @@ The container class must provide methods to generate iterator classes;
 something like this:
 
 {% highlight c++ %}
-    class MyContainer
+class MyContainer
+{
+public:
+    MyContainer(unsigned capacity);
+    //...
+
+    // Required
+    MyIterator begin () const
     {
-    public:
-        MyContainer(unsigned capacity);
-        //...
-    
-        // Required
-        MyIterator begin () const
-        {
-            return MyIterator(*this, 0);
-        }
-    
-        // Required
-        MyIterator end () const
-        {
-            return MyIterator(*this, m_currentIndex);
-        }
-    
-        //...
-    };
+        return MyIterator(*this, 0);
+    }
+
+    // Required
+    MyIterator end () const
+    {
+        return MyIterator(*this, m_currentIndex);
+    }
+
+    //...
+};
 {% endhighlight %}
 
 This allows your own custom classes to be used in a very natural way with
 the new `for` loop, such as this example:
 
 {% highlight c++ %}
-    MyContainer     cont(10);
+MyContainer     cont(10);
 
-    cont.add(MyObject(9, "IX"));
-    cont.add(MyObject(56, "LVI"));
-    cont.add(MyObject(43, "XLIII"));
-    cont.add(MyObject(1984, "MCMXXCIV"));
+cont.add(MyObject(9, "IX"));
+cont.add(MyObject(56, "LVI"));
+cont.add(MyObject(43, "XLIII"));
+cont.add(MyObject(1984, "MCMXXCIV"));
 
-    for ( auto obj : cont)
-    {
-        std::cout << obj.number() << ": " << obj.description() << std::endl;
-    }
+for ( auto obj : cont)
+{
+    std::cout << obj.number() << ": " << obj.description() << std::endl;
+}
 {% endhighlight %}
 
 The full source to the examples is available in my [Github C++11 samples](https://github.com/gavinb/cplusplus11/tree/master/rangefor/).

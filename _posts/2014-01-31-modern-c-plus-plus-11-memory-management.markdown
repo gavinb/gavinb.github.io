@@ -79,6 +79,6 @@ can virtually eliminate leaks and other common memory problems.
 
 These are each covered in detail in their own articles below:
 
-* [Unique Pointer](/2014/01/c-plus-plus-11-unique-pointer.html)
-* [Shared Pointer](/2014/02/c-plus-plus-11-shared-pointer.html)
+* [Unique Pointer]({% post_url 2014-01-31-c-plus-plus-11-unique-pointer %})
+* [Shared Pointer]({% post_url 2014-02-13-c-plus-plus-11-shared-pointer %})
 * Weak Pointer (TBA)
