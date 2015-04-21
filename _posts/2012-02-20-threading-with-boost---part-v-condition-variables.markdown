@@ -99,13 +99,13 @@ show the complete set: condition variable, its mutex and the actual state
 variable:
 
 {% highlight c++ %}
-    #include <boost/thread.hpp>
+#include <boost/thread.hpp>
 
-    // ...
+// ...
 
-    boost::condition_variable   data_ready_cond;
-    boost::mutex                data_ready_mutex;
-    bool                        data_ready = false;
+boost::condition_variable   data_ready_cond;
+boost::mutex                data_ready_mutex;
+bool                        data_ready = false;
 {% endhighlight %}
 
 To raise a condition, the code controlling the state can notify other
@@ -114,19 +114,19 @@ thread.  In the case of notifying *one* waiting thread, which one gets
 notified is indeterminate. Here we see how to notify *all* waiting threads:
 
 {% highlight c++ %}
-    data_ready = true;
-    data_ready_cond.notify_all();
+data_ready = true;
+data_ready_cond.notify_all();
 {% endhighlight %}
 
 Threads interested in being notified of the state change must use a loop
 to wait for the condition variable:
 
 {% highlight c++ %}
-    boost::unique_lock<boost::mutex> lock(data_ready_mutex);
-    while (!data_ready)
-    {
-        data_ready_cond.wait(lock);
-    }
+boost::unique_lock<boost::mutex> lock(data_ready_mutex);
+while (!data_ready)
+{
+    data_ready_cond.wait(lock);
+}
 {% endhighlight %}
 
 The *lock* is used to prevent data races when multiple threads awaken (see
@@ -140,26 +140,27 @@ will simply go back to waiting.
 
 # Sample run
 
-In ZZZZZZZZZ the `many_wait.cpp` sample shows this in action.  Trace of a
-sample run is shown below, in which four slave threads are spawned, all
-waiting on the master to signal the condition. The master starts up, waits
-for a short while pretending to work, and then calls `notify_all()`. At this
-point, all the slaves wake up and terminate.
+The [`many_wait.cpp` variable sample code](http://bitbucket.org/gavinb/boost_samples/src/tip/condition/many_wait.cpp)
+shows this in action.  Trace of a sample run is shown below, in which four
+slave threads are spawned, all waiting on the master to signal the
+condition. The master starts up, waits for a short while pretending to work,
+and then calls `notify_all()`. At this point, all the slaves wake up and
+terminate.
 
 {% highlight bash %}
-    Spawning threads...
-    +++ slave thread: 1
-    +++ slave thread: 4
-    Waiting for threads to complete...
-    +++ slave thread: 3
-    +++ slave thread: 2
-    +++ master thread
-        master sleeping...
-        master notifying...
-    --- master thread
-    --- slave thread: 4
-    --- slave thread: 1
-    --- slave thread: 2
-    --- slave thread: 3
-    Done
+Spawning threads...
++++ slave thread: 1
++++ slave thread: 4
+Waiting for threads to complete...
++++ slave thread: 3
++++ slave thread: 2
++++ master thread
+    master sleeping...
+    master notifying...
+--- master thread
+--- slave thread: 4
+--- slave thread: 1
+--- slave thread: 2
+--- slave thread: 3
+Done
 {% endhighlight %}
