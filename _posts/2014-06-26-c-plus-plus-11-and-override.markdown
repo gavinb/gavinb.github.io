@@ -154,4 +154,4 @@ THe sample code can be otained from Github:
 In addition to the `override` modifier, there is support for expressing the
 opposite sense; the `final` declaration instructs the compiler that the
 method cannot be overridden by a dervied class.  The `final` modifier is
-explained in its own article, [C++11 and override](/2014/06/c-plus-plus-11-and-final.html).
+explained in its own article, [C++11 and final](/2014/06/c-plus-plus-11-and-final.html).
