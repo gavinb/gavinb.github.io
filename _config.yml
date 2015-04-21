@@ -11,3 +11,6 @@ github_username:  gavinb
 # Build settings
 markdown: kramdown
 highlight: pygments
+
+# Match format of existing URLs
+permalink: /:year/:month/:title.html
