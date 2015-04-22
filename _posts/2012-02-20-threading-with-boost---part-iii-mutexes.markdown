@@ -3,7 +3,7 @@ layout: post
 title: "Threading with Boost - Part III: Mutexes"
 comments: true
 category: Boost
-tags: [Boost, C++]
+tags: [Boost, C++, Threading]
 published: true
 ---
 

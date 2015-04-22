@@ -18,8 +18,6 @@ features in the C++11 standard library is the `future` module.  This provides
 an extra layer of abstraction over threads, providing a simple mechanism
 for asynchronous (ie. concurrent) processing.
 
-<!-- more -->
-
 ## What is a 'future'?
 
 A `std::future` is an object that represents the future return value of a

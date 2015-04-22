@@ -3,7 +3,8 @@ layout: post
 title: "Threading with Boost - Part I: Creating Threads"
 date: 2009-05-13 22:16
 comments: true
-categories: 
+categories: Boost
+tags: [Boost, C++, Threading]
 ---
 
 [Boost](http://www.boost.org/) is an incredibly powerful collection of portable class libraries for C++.  There are classes for such tasks as date/time manipulation, filesystem interfaces, networking, numerical programming, interprocess communication and [much more](http://www.boost.org/doc/libs).

@@ -3,12 +3,12 @@ layout: post
 title: "Threading with Boost - Part II: Threading Challenges"
 date: 2010-01-01 21:15
 comments: true
-categories: 
+categories: Boost
+tags: [Boost, C++, Threading]
 ---
 
 In [Part I](http://antonym.org/) of this series on [Boost](http://boost.org/), we looked at the basics of how to create and run threads using the Boost libraries.  But once you have more than one thread running in a process, you have to deal with the problems and challenges that threads can introduce.  So, before delving into the mechanics of how to use mutexes and other threading constructs, we look at what can go wrong - and how to avoid it.
 
-<!--more-->
 ## Shared State
 
 There is a simple solution to most major threading problems: have no shared state.  By shared state, I mean any data or resource (such as file handle, socket, graphics context, queue, buffer, etc) that is used by more than one thread at the same time.  If two threads are truly independent, they can safely run concurrently without care or consideration.  We wouldn't need sophisticated mechanisms for synchronisation if there's nothing to sync over.  Unfortunately, this restriction is not at all practical or realistic.  And as soon as you introduce shared state, you have to worry about atomicity, consistency, race conditions, and all sorts of issues.
