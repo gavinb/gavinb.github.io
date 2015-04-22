@@ -53,9 +53,9 @@ its name as a string, so we can obtain the `Class` definition for `NSString`
 thus:
 
 {% highlight objc %}
-    const char* className = "NSString";
+const char* className = "NSString";
 
-    Class klass = objc_getClass(className);
+Class klass = objc_getClass(className);
 {% endhighlight %}
 
 Using this `klass` variable, we can obtain a complete definition of the
@@ -64,22 +64,22 @@ looking at methods - we obtain the list by asking for a *copy* of the list
 (ie. we are responsible for freeing the memory when done):
 
 {% highlight objc %}
-    unsigned int methodCount = 0;
-    Method* methods = class_copyMethodList(klass, &methodCount);
+unsigned int methodCount = 0;
+Method* methods = class_copyMethodList(klass, &methodCount);
 {% endhighlight %}
 
 Simple! Now we have our own array of `methodCount` `Method` instances,
 so we can iterate through the list
 
 {% highlight objc %}
-    for (unsigned i = 0; i < methodCount; i++)
-    {
-        Method method = methods[i];
-        SEL methodSEL = method_getName(method);
-        const char* methodName = sel_getName(methodSEL);
+for (unsigned i = 0; i < methodCount; i++)
+{
+    Method method = methods[i];
+    SEL methodSEL = method_getName(method);
+    const char* methodName = sel_getName(methodSEL);
 
-        printf("%s\n", methodName);
-    }
+    printf("%s\n", methodName);
+}
 {% endhighlight %}
 
 Notice that when we ask a method for its name, we get a `SEL` or selector
@@ -97,28 +97,28 @@ Since we own the copy of the method list, we must `free` the memory when
 we are finished:
 
 {% highlight objc %}
-    free(methods);
+free(methods);
 {% endhighlight %}
 
 A very similar approach can be used to query all the instance variables
 defined in a class:
 
 {% highlight objc %}
-    unsigned int ivarCount = 0;
-    Ivar* ivars = class_copyIvarList(klass, &ivarCount);
+unsigned int ivarCount = 0;
+Ivar* ivars = class_copyIvarList(klass, &ivarCount);
 {% endhighlight %}
 
 And once again, loop through and process each `Ivar` (remembering to free
 the memory when we are finished):
 
 {% highlight objc %}
-    for (unsigned i = 0; i < ivarCount; i++)
-    {
-        Ivar ivar = ivars[i];
-        printf("    %s\n", ivar_getName(ivar));
-    }
+for (unsigned i = 0; i < ivarCount; i++)
+{
+    Ivar ivar = ivars[i];
+    printf("    %s\n", ivar_getName(ivar));
+}
 
-    free(ivars);
+free(ivars);
 {% endhighlight %}
 
 Running this code and querying the `NSString` class from Cocoa, we see the
@@ -164,20 +164,20 @@ As above, the first step to list the properties is to get a copy of the
 properties from the class:
 
 {% highlight objc %}
-    unsigned int propertyCount = 0;
-    objc_property_t* properties = class_copyPropertyList(klass, &propertyCount);
+unsigned int propertyCount = 0;
+objc_property_t* properties = class_copyPropertyList(klass, &propertyCount);
 {% endhighlight %}
 
 Then we can iterate through each property and display its name and attributes:
 
 {% highlight objc %}
-    for (unsigned i = 0; i < propertyCount; i++)
-    {
-        objc_property_t property = properties[i];
-        printf("@property %s\t%s;\n", property_getName(property), property_getAttributes(property));
-    }
+for (unsigned i = 0; i < propertyCount; i++)
+{
+    objc_property_t property = properties[i];
+    printf("@property %s\t%s;\n", property_getName(property), property_getAttributes(property));
+}
 
-    free(properties);
+free(properties);
 {% endhighlight %}
 
 These attributes pertain to topics such as `weak` references, and so on.
