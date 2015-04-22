@@ -8,10 +8,25 @@ layout: default
   <ul class="post-list">
     {% for post in site.posts %}
       {% for cat in post.categories %}
-        {% if cat == 'c++11' %}
+        {% if cat == 'C++11' %}
           <li>
-            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
           </li>
+        {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </ul>
+
+  <h1 class="page-heading">Boost Articles</h1>
+  <ul class="post-list">
+    {% for post in site.posts %}
+      {% for cat in post.categories %}
+        {% if cat == 'boost' %}
+          <li>
+            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          </li>
+        {% break %}
         {% endif %}
       {% endfor %}
     {% endfor %}
