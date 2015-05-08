@@ -145,8 +145,9 @@ the register/unregister methods, which also hold the mutex.  For example:
             mMutex.unlock()           lockCount = 1
         mMutex.unlock()               lockCount = 0
 
-Npte: *Recursive mutexes should be used rarely, if at all. Thinking you Need
-a recursive mutex may be a sign that you have a structural problem with the code.*
+Note: *Recursive mutexes should be used rarely, if at all. If you think you
+need a recursive mutex, it may be a sign that you have a structural problem
+with the code and you should reconsider the design.*
 
 Fun fact: *The person who implemented recursive mutexes in `pthreads` did it
 as a bit of a joke, just to prove it was possible - not really intending for
