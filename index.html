@@ -4,35 +4,8 @@ layout: default
 
 <div class="home">
 
-  <h1 class="page-heading">C++11 Articles</h1>
-  <ul class="post-list">
-    {% for post in site.posts %}
-      {% for cat in post.categories %}
-        {% if cat == 'C++11' %}
-          <li>
-            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-          </li>
-        {% break %}
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
-  </ul>
-
-  <h1 class="page-heading">Boost Articles</h1>
-  <ul class="post-list">
-    {% for post in site.posts %}
-      {% for cat in post.categories %}
-        {% if cat == 'boost' %}
-          <li>
-            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-          </li>
-        {% break %}
-        {% endif %}
-      {% endfor %}
-    {% endfor %}
-  </ul>
-
   <h1 class="page-heading">All Posts</h1>
+  <p>Welcome to my blog.</p>
 
   <ul class="post-list">
     {% for post in site.posts %}
