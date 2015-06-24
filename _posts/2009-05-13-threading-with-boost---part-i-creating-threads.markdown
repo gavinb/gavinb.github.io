@@ -26,9 +26,9 @@ A `boost::thread` object is normally constructed by passing the threading functi
 Code Examples
 -------------
 
-All the code examples are provided in a single download below, which you can use for any purpose, no strings attached.  (The usual disclaimer is that no warranties apply!)  And just as Boost runs on many platforms (ie. Windows, Unix/Linux, Mac OS X and others) the example code should be similarly portable.
+All the code examples are provided in the repository below, which you can use for any purpose, no strings attached.  (The usual disclaimer is that no warranties apply!)  And just as Boost runs on many platforms (ie. Windows, Unix/Linux, Mac OS X and others) the example code should be similarly portable.  Clone the source with [Mercurial](http://mercurial.selenic.com/), or download a zip here:
 
- * Download <span class="mt-enclosure mt-enclosure-file" style="display: inline;"><a href="http://antonym.org/boost/boost_threads_eg1.zip">`boost_threads_eg1.zip`</a> (4kB)</span>
+ * Mercurial repository: [https://bitbucket.org/gavinb/boost_samples/](https://bitbucket.org/gavinb/boost_samples/)
 
 There is a separate example program for each section below, and a common Bjam script to build them all (`Jamroot`).  [Bjam](http://www.boost.org/boost-build2/doc/html/index.html) is the Boost build system, a very powerful (but notoriously difficult to learn, and worthy of a whole series of articles).
 
