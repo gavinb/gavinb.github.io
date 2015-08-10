@@ -114,6 +114,8 @@ thread.  In the case of notifying *one* waiting thread, which one gets
 notified is indeterminate. Here we see how to notify *all* waiting threads:
 
 {% highlight c++ %}
+boost::unique_lock<boost::mutex> lock(data_ready_mutex);
+
 data_ready = true;
 data_ready_cond.notify_all();
 {% endhighlight %}
