@@ -1,0 +1,31 @@
+https://www.ibm.com/developerworks/community/blogs/5894415f-be62-4bc0-81c5-3956e82276f3/entry/c_14_the_new_standard_through_the_looking_glass_the_view_from_the_feb_2014_c_standard_meeting?lang=en
+
+
+We should be seeing C++ programming style and paradigms emerge shortly. Many such as the following are becomin evident
+Don't use Raw Loops. Prefer Library functions with Ranged-based for and lambdas
+Don't use NULL. Prefer nullptr_t
+Don't use raw new/delete. Prefer make_shared and make_unique
+Don't use type declarations. Liberally use auto instead.
+Others are still being debated such as what is the guideline with the use Special Member functions such as Default Constructor, Copy Constructor and Copy-assignment constructor and whether the addition of Move Constructor and Move-assignment constructor should change it.
+Replace Rule of Three. Prefer Rule of Five or Rule of Zero.
+So where are the compilers on their implementation status of C++14? This information is courtesy of Marshall Clow who is now the new lead maintainer for clang's libc++.a library.
+Clang 3.3 claimed in June 2013 to be Language and Library complete for C++11. GNU 4.8.1 became C++11 Language complete and claims the Library complete in 4.9.
+The next release of current clang trunk to be named 3.5 will have a complete C++14 library and language implementation. As clang usually release compiler twice a year, this means a release in June-Sept for 3.5.
+What is coming in future for C++17, 22 and beyond. all you have to do is look at the various subgroups of which there are 13.
+Library as usual had a large number of motions. But Library also tendered a large number of TSs.
+They had augmented the original Library Fundamental TS with many more features beyond the original Optional<T> proposal and added Networking TS proposals to form a new Library Fundamental TS that is aiming for a PDTS ballot after this meeting.
+Herb Sutter already named the additions in his excellent post-meeting blog, but I will repeat it here:
+These were in N3921:
+N3783, “Network Byte Order Conversion”
+N3793, “Proposal to add a utility class to represent optional objects (Revision 5)”
+N3804, any library
+N3843, A SFINAE-Friendly std::common_type (option 2 was approved)
+N3866, “Invocation type traits (Rev. 2)”, but dropping function_call_operator.
+N3905, Faster string searching (Boyer-Moore et al.)
+N3916, “Polymorphic Memory Resources”
+N3920, “Extending shared_ptr to Support Arrays”
+N3921, string_view library
+N3923, “A SFINAE-Friendly std::iterator_traits”
+N3925, “A sample proposal”
+N3932, “Variable Templates For Type Traits”
+N3915, make apply normative
