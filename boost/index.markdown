@@ -13,11 +13,11 @@ that appear on the official website.
 
 ## Threading with Boost
 
-* [Part I: Creating Threads](/2009/05/threading-with-boost---part-i-creating-threads.html)
-* [Part II: Threading Challenges](/2010/01/threading-with-boost---part-ii-threading-challenges.html)
-* [Part III: Mutexes](/2012/02/threading-with-boost---part-iii-mutexes.html)
-* [Part IV: Mutex Examples](/2012/02/threading-with-boost---part-iv-mutex-examples.html)
-* [Part V: Condition Variables](/2012/02/threading-with-boost---part-v-condition-variables.html)
+* [Part I: Creating Threads](/2009/05/threading-with-boost-part-i-creating-threads.html)
+* [Part II: Threading Challenges](/2010/01/threading-with-boost-part-ii-threading-challenges.html)
+* [Part III: Mutexes](/2012/02/threading-with-boost-part-iii-mutexes.html)
+* [Part IV: Mutex Examples](/2012/02/threading-with-boost-part-iv-mutex-examples.html)
+* [Part V: Condition Variables](/2012/02/threading-with-boost-part-v-condition-variables.html)
 
 ## Boost and C++11
 
